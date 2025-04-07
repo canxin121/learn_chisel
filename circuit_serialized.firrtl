@@ -1,0 +1,36 @@
+FIRRTL version 3.3.0
+circuit Module1 :
+  module Module3 : @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 7:7]
+    input clock : Clock @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 7:7]
+    input reset : Reset @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 7:7]
+    output io : { flip in : UInt<8>, out : UInt<8>} @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 8:14]
+
+    node _io_out_T = add(io.in, UInt<1>(0h1)) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 13:19]
+    node _io_out_T_1 = tail(_io_out_T, 1) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 13:19]
+    connect io.out, _io_out_T_1 @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 13:10]
+
+  module Module2 : @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 17:7]
+    input clock : Clock @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 17:7]
+    input reset : Reset @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 17:7]
+    output io : { flip in : UInt<8>, out : UInt<8>} @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 18:14]
+
+    inst m3 of Module3 @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 23:18]
+    connect m3.clock, clock
+    connect m3.reset, reset
+    connect m3.io.in, io.in @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 24:12]
+    node _io_out_T = add(m3.io.out, UInt<1>(0h1)) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 26:23]
+    node _io_out_T_1 = tail(_io_out_T, 1) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 26:23]
+    connect io.out, _io_out_T_1 @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 26:10]
+
+  module Module1 : @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 30:7]
+    input clock : Clock @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 30:7]
+    input reset : UInt<1> @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 30:7]
+    output io : { flip in : UInt<8>, out : UInt<8>} @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 31:14]
+
+    inst m2 of Module2 @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 36:18]
+    connect m2.clock, clock
+    connect m2.reset, reset
+    connect m2.io.in, io.in @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 37:12]
+    node _io_out_T = add(m2.io.out, UInt<1>(0h1)) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 39:23]
+    node _io_out_T_1 = tail(_io_out_T, 1) @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 39:23]
+    connect io.out, _io_out_T_1 @[home/canxin/Documents/fpga/learn_chisel/src/main/scala/example6.scala 39:10]

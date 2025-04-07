@@ -2,7 +2,7 @@ package example3
 
 import chisel3._
 import chisel3.util._
-import _root_.circt.stage.ChiselStage
+import _root_.circt.stage.CustomStage
 
 /** 可调参数波形发生器
   *
@@ -79,7 +79,7 @@ object WaveformGeneratorMain extends App {
   import java.nio.file.{Paths, Files}
   import java.nio.charset.StandardCharsets
 
-  val verilogStr = ChiselStage.emitSystemVerilog(
+  val verilogStr = CustomStage.emitSystemVerilog(
     gen = new WaveformGenerator(bitWidth = 16, phaseWidth = 16),
     firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info")
   )

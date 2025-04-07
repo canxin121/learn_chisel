@@ -1,0 +1,26 @@
+module attributes {circt.loweringOptions = "verifLabels"} {
+  hw.module private @Counter(in %clock : !seq.clock, in %reset : i1, out io_full : i1) {
+    %c1_i8 = hw.constant 1 : i8
+    %c-1_i8 = hw.constant -1 : i8
+    %c0_i8 = hw.constant 0 : i8
+    %counter = seq.firreg %2 clock %clock reset sync %reset, %c0_i8 {firrtl.random_init_start = 0 : ui64} : i8
+    %0 = comb.icmp bin eq %counter, %c-1_i8 {sv.namehint = "_io_full_T"} : i8
+    %1 = comb.add bin %counter, %c1_i8 {sv.namehint = "_counter_T"} : i8
+    %2 = comb.mux bin %0, %c0_i8, %1 : i8
+    hw.output %0 : i1
+  }
+  hw.module private @Flip(in %clock : !seq.clock, in %reset : i1, in %io_in : i1, out io_out : i1) {
+    %false = hw.constant false
+    %reg = seq.firreg %0 clock %clock reset sync %reset, %false {firrtl.random_init_start = 0 : ui64, sv.namehint = "reg"} : i1
+    %0 = comb.xor %io_in, %reg : i1
+    hw.output %reg : i1
+  }
+  hw.module @LedBlink(in %clock : !seq.clock, in %reset : i1, out io_out : i1) {
+    %counterInst.io_full = hw.instance "counterInst" @Counter(clock: %clock: !seq.clock, reset: %reset: i1) -> (io_full: i1) {sv.namehint = "flipInst.io_in"}
+    %flipInst.io_out = hw.instance "flipInst" @Flip(clock: %clock: !seq.clock, reset: %reset: i1, io_in: %counterInst.io_full: i1) -> (io_out: i1) {sv.namehint = "flipInst.io_out"}
+    hw.output %flipInst.io_out : i1
+  }
+  om.class @LedBlink_Class(%basepath: !om.basepath) {
+    om.class.fields
+  }
+}

@@ -7,7 +7,6 @@ import scala.util.Random // 用于生成随机数
 import example2.SimpleAdder
 
 class SimpleAdderSpec extends AnyFlatSpec with ChiselScalatestTester {
-
   // 可以配置测试参数
   val testWidth = 8 // 测试的加法器位宽
   val numTestCycles = 1000 // 运行多少个随机测试向量

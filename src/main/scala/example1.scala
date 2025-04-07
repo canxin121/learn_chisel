@@ -59,6 +59,10 @@ object LedBlinkMain extends App {
     firtoolOpts = Array("-disable-all-randomization", "-strip-debug-info")
   )
 
+  val firStr = ChiselStage.emitCHIRRTL(
+    new LedBlink
+  )
+
   Files.createDirectories(Paths.get("output/example1"))
 
   Files.write(
@@ -66,6 +70,10 @@ object LedBlinkMain extends App {
     verilogStr.getBytes(StandardCharsets.UTF_8)
   )
 
+  Files.write(
+    Paths.get("output/example1/LedBlink.fir"),
+    firStr.getBytes(StandardCharsets.UTF_8)
+  )
   println(
     "LedBlink module has been generated in 'output/example1/LedBlink.sv'"
   )

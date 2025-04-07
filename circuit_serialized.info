@@ -1,0 +1,150 @@
+Circuit(
+  List(
+    Module(
+      Module3,
+      List(
+        Port(clock, Input, ClockType),
+        Port(reset, Input, ResetType),
+        Port(io, Output, BundleType(Vector(
+          Field(in, Flip, UIntType(IntWidth(8))),
+          Field(out, Default, UIntType(IntWidth(8)))
+        )))
+      ),
+      Block(Vector(
+        DefNode(
+          _io_out_T,
+          DoPrim(
+            add,
+            ArraySeq(
+              SubField(Reference(io, UnknownType), in, UnknownType),
+              UIntLiteral(1, IntWidth(1))
+            ),
+            ArraySeq(),
+            UnknownType
+          )
+        ),
+        DefNode(
+          _io_out_T_1,
+          DoPrim(
+            tail,
+            ArraySeq(Reference(_io_out_T, UnknownType)),
+            ArraySeq(1),
+            UnknownType
+          )
+        ),
+        Connect(
+          SubField(Reference(io, UnknownType), out, UnknownType),
+          Reference(_io_out_T_1, UnknownType)
+        )
+      ))
+    ),
+    
+    Module(
+      Module2,
+      List(
+        Port(clock, Input, ClockType),
+        Port(reset, Input, ResetType),
+        Port(io, Output, BundleType(Vector(
+          Field(in, Flip, UIntType(IntWidth(8))),
+          Field(out, Default, UIntType(IntWidth(8)))
+        )))
+      ),
+      Block(Vector(
+        DefInstance(m3, Module3, UnknownType),
+        Connect(
+          SubField(Reference(m3, UnknownType), clock, UnknownType),
+          Reference(clock, UnknownType)
+        ),
+        Connect(
+          SubField(Reference(m3, UnknownType), reset, UnknownType),
+          Reference(reset, UnknownType)
+        ),
+        Connect(
+          SubField(SubField(Reference(m3, UnknownType), io, UnknownType), in, UnknownType),
+          SubField(Reference(io, UnknownType), in, UnknownType)
+        ),
+        DefNode(
+          _io_out_T,
+          DoPrim(
+            add,
+            ArraySeq(
+              SubField(SubField(Reference(m3, UnknownType), io, UnknownType), out, UnknownType),
+              UIntLiteral(1, IntWidth(1))
+            ),
+            ArraySeq(),
+            UnknownType
+          )
+        ),
+        DefNode(
+          _io_out_T_1,
+          DoPrim(
+            tail,
+            ArraySeq(Reference(_io_out_T, UnknownType)),
+            ArraySeq(1),
+            UnknownType
+          )
+        ),
+        Connect(
+          SubField(Reference(io, UnknownType), out, UnknownType),
+          Reference(_io_out_T_1, UnknownType)
+        )
+      ))
+    ),
+    
+    Module(
+      Module1,
+      List(
+        Port(clock, Input, ClockType),
+        Port(reset, Input, UIntType(IntWidth(1))),
+        Port(io, Output, BundleType(Vector(
+          Field(in, Flip, UIntType(IntWidth(8))),
+          Field(out, Default, UIntType(IntWidth(8)))
+        )))
+      ),
+      Block(Vector(
+        DefInstance(m2, Module2, UnknownType),
+        Connect(
+          SubField(Reference(m2, UnknownType), clock, UnknownType),
+          Reference(clock, UnknownType)
+        ),
+        Connect(
+          SubField(Reference(m2, UnknownType), reset, UnknownType),
+          Reference(reset, UnknownType)
+        ),
+        Connect(
+          SubField(SubField(Reference(m2, UnknownType), io, UnknownType), in, UnknownType),
+          SubField(Reference(io, UnknownType), in, UnknownType)
+        ),
+        DefNode(
+          _io_out_T,
+          DoPrim(
+            add,
+            ArraySeq(
+              SubField(SubField(Reference(m2, UnknownType), io, UnknownType), out, UnknownType),
+              UIntLiteral(1, IntWidth(1))
+            ),
+            ArraySeq(),
+            UnknownType
+          )
+        ),
+        DefNode(
+          _io_out_T_1,
+          DoPrim(
+            tail,
+            ArraySeq(Reference(_io_out_T, UnknownType)),
+            ArraySeq(1),
+            UnknownType
+          )
+        ),
+        Connect(
+          SubField(Reference(io, UnknownType), out, UnknownType),
+          Reference(_io_out_T_1, UnknownType)
+        )
+      ))
+    )
+  ),
+  Module1,
+  List(),
+  List(),
+  List()
+)
